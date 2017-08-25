@@ -38,7 +38,7 @@ RSpec.describe DriverSessionsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
 
-    it "renders the new template" do
+    it "renders the new (login) template" do
       get :new
       expect(response).to render_template("new")
     end
@@ -91,11 +91,15 @@ RSpec.describe DriverSessionsController, type: :controller do
     end
 
     context "with invalid params" do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      it "returns a success response, render 'new' template, and show errors" do
         post :create, params: {driver_session: invalid_attributes}, session: {}
         expect(response).to be_success
       	expect(response).to render_template("new")
-      end
+
+				driver_session = assigns(:driver_session)
+        expect(driver_session.valid?).to be false
+        expect(driver_session.errors.present?).to be true
+			end
     end
   end
 end

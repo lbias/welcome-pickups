@@ -45,7 +45,7 @@ module WelcomePickupsAdapter
   # authenticate resource
   # Api Doc: http://crm.welcomepickups.com/apipie/1.0/drivers_appapiv1authentications/login.html
   # example:
-  #   auth_params = {email: 'savvas@dopios.com', password: 'Accounts12', attempt_counter: 1}
+  #   auth_params = {email: 'savvas@dopios.com', password: 'Accounts12', attempt_counter: '1'}
   #
   def authenticate_driver_session(auth_params)
     response = remote_action("post", nil, 'login', auth_params).parsed_response

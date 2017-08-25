@@ -24,7 +24,9 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to "Home", root_path, class: "navbar-brand"
+                    %a.navbar-brand{href:root_path}
+            %img.inline{ src: '/favicon.ico', width: '21px', style:'display: inline;'}
+            Home 
         #navbar.collapse.navbar-collapse
           %ul.nav.navbar-nav
             %li

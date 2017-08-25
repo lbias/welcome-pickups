@@ -56,13 +56,16 @@ class ScheduleItem
   end
 
   # TODO move to helpers, and enhance
-
-  def to_time time_string
-  	hrs, mins = time_string.split(':')
-  	Time.now.change({ hour: hrs.to_i, min: mins.to_i})
-  end
+	# TODO handle 00:00 case
+  # TODO handle swap if from < to, to fix negative duration,
+  # but need to know the data representation itself first
 
   def duration from, to
   	minutes = ((to_time(to) - to_time(from)) / 1.minutes).to_i
+  end
+
+  def to_time time_string
+    hrs, mins = time_string.split(':')
+    Time.now.change({ hour: hrs.to_i, min: mins.to_i})
   end
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ScheduleItem, type: :model do
 	describe "initialization" do
-    it "should has all fields in proper format" do
+    it "should have all fields in proper format" do
 			schedule_item = build(:schedule_item)
       expect( schedule_item.valid? ).to_be true
 
