@@ -7,7 +7,8 @@ module WelcomePickupsAdapter
       options = {:headers => { 'Content-Type' => 'application/json' }}
       options[:body] = action_params.to_json if action_params.present?
       options[:timeout] = 5
-      options.merge!(httparty_options)
+      # options.merge!(httparty_options)
+      options = safe_merge options, httparty_options
 
       server_url ||= 'crm.welcomepickups.com/drivers-app/api/v1/'
       url = URI.encode "http://#{server_url}#{action_url}"
@@ -31,10 +32,10 @@ module WelcomePickupsAdapter
   # only authenticated communication point with WelcomePickups API
   def remote_authed_action(auth_params, method, server_url, action_url, action_params = {}, httparty_options = {})
     auth_headers = {
-      'X-User-Email' => auth_params.email,
-      'X-User-Token' => auth_params.token
+      'X-User-Email' => auth_params[:email],
+      'X-User-Token' => auth_params[:token]
      }
-     httparty_options.merge!({headers: auth_headers})
+    httparty_options = safe_merge httparty_options, {headers: auth_headers}
 
     remote_action(method, server_url, action_url, action_params, httparty_options)
   end
@@ -48,17 +49,14 @@ module WelcomePickupsAdapter
   #
   def authenticate_driver_session(auth_params)
     response = remote_action("post", nil, 'login', auth_params).parsed_response
+    # TODO add utils to parse response based on API documentaion
     if response['token'].present?
-      {
-        success: true,
-        token: response['token']
-      }
+      {  success: true,
+        token: response['token'] }
     else
-      {
-        success: false,
+      {  success: false,
         attempt_counter: response['attempt_counter'],
-        error: response['result']
-      }
+        error: response['result'] }
     end
   end
 
@@ -70,6 +68,30 @@ module WelcomePickupsAdapter
   #
   def request_schedule(filter_params, auth_params)
     response = remote_authed_action(auth_params, "get", nil, 'account/schedule', filter_params)
+
+    # TODO add utils to parse response based on API documentaion
+    case response.code
+      when 200
+        { success: true,
+          items_hash: response.parsed_response}
+      when 400
+        { success: false,
+          error: response.parsed_response["result"]}
+      when 401
+        { success: false,
+          error: response.parsed_response["error"]}
+      else
+        { success: false,
+          error: 'Sorry! Something went wrong with WelcomePickups API, please contact administration!'}
+    end
+  end
+
+  private
+  # TODO add utils to parse response based on API documentaion
+
+  # merge inner hashes without overriding them
+  def safe_merge h1, h2
+    h1.merge(h2) {|key, first, second| first.is_a?(Hash) && second.is_a?(Hash) ? first.merge(second) : second }
   end
 
 end

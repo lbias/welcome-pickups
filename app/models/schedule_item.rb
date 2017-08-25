@@ -36,13 +36,6 @@ class ScheduleItem
     end
   end
 
-  def initialize(item_json='')
-    from_json item_json
-  end
-
-  def from_json item_json
-  end
-
   # -- Calculations
 
   def calculate_availability
@@ -53,6 +46,15 @@ class ScheduleItem
   end
 
   # -- Util
+
+  def transfer_availablity_s
+    "#{@transfer_available_from} - #{@transfer_available_to}"
+  end
+
+  def request_availablity_s
+    "#{@request_available_from} - #{@request_available_to}"
+  end
+
   # TODO move to helpers, and enhance
 
   def to_time time_string

@@ -1,23 +1,47 @@
-%h1 Listing schedule_items
+- if @schedule && @schedule.valid?
+  %h1
+    = "Transfers Schedule (#{@schedule.items.size})"
+- else
+  %h1  Transfers Schedule
 
-%table
-  %thead
-    %tr
-      %th Date
-      %th Transfer available from
-      %th Transfer available to
-      %th Request available from
-      %th Request available to
-      %th Transfer availablity
-      %th Request availablity
+:css
+  .form-control-inline {width:auto;display:inline-block;}
+  .table td, .table th {text-align:center;}
+= form_tag '', :method => :get, class: "form-horizontal", role: "form", style: 'margin-left: 20px;' do
+  .form-group.form-control-inline
+    %input{name: 'from', class: 'form-control form-control-inline', placeholder: 'Filter runs from this date', value: params[:from], type: 'date'}
+    %input{name: 'to', class: 'form-control form-control-inline', placeholder: 'Filter runs to this date', value: params[:to], type: 'date'}
+  = submit_tag 'Filter', class: 'btn btn-primary form-control-inline', style: 'margin-left: 20px;'
 
-  %tbody
-    - @schedule_items.each do |schedule_item|
-      %tr
-        %td= schedule_item.date
-        %td= schedule_item.transfer_available_from
-        %td= schedule_item.transfer_available_to
-        %td= schedule_item.request_available_from
-        %td= schedule_item.request_available_to
-        %td= schedule_item.transfer_availablity
-        %td= schedule_item.request_availablity   
+- if @schedule && @schedule.valid?
+  .table-responsive
+    %table.table.table-striped.table-bordered.table-hover
+      %thead
+        %tr
+          %th Date
+          %th Transfers Availablity
+          %th Requests Availablity
+
+      %tfoot
+        %tr{style: 'background-color:darkgray;color: black;text-align: center;'}
+          %td{colspan: 1, style: 'background-color:grey;color: white;font-weight: bold;text-align: center;'}= "Total (mins)"
+          %td= @schedule.transfer_availablity_total
+          %td= @schedule.request_availablity_total
+
+        %tr{style: 'background-color:darkgray;color: black;text-align: center;'}
+          %td{colspan: 1, style: 'background-color:grey;color: white;font-weight: bold;text-align: center;'}= "Average (mins)"
+          %td= @schedule.transfer_availablity_avg
+          %td= @schedule.request_availablity_avg
+
+      %tbody
+        - @schedule.items.each do |schedule_item|
+          %tr
+            %td= schedule_item.date.to_date.strftime('%A, %d %B %Y')
+            %td= schedule_item.transfer_availablity_s
+            %td= schedule_item.request_availablity_s
+- elsif @schedule && !@schedule.valid?
+  %p.lead
+    No schedule items match your query, please change the date filters and try again.
+- else
+  %p.lead
+    We are very sorry! Something went wrong, please, contact us with the error message and your query details.
