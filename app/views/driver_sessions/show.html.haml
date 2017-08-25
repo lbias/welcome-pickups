@@ -1,0 +1,12 @@
+.page-header
+  = link_to driver_sessions_path, class: 'btn btn-default' do
+    %span.glyphicon.glyphicon-list-alt
+    Back
+  = link_to logout_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+    %span.glyphicon.glyphicon-exit
+    Logout
+  %h1 Show Logged In Driver
+
+%dl.dl-horizontal
+  %dt Email:
+  %dd= @driver_session.email

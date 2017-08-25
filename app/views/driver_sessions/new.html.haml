@@ -1,0 +1,11 @@
+.page-header
+  %h1 Login
+
+%form#new_driver_session.form-horizontal{:action => "/login/", :method => "post", :role => "form"}
+  .form-group
+    %label{:for => "driver_session_email"} Email
+    %input#driver_session_email.form-control{:autofocus => "autofocus", :name => "driver_session[email]", :type => "email", :value => ""}/
+  .form-group
+    %label{:for => "driver_session_password"} Password
+    %input#driver_session_password.form-control{:autocomplete => "off", :name => "driver_session[password]", :type => "password"}/
+  %input.btn.btn-primary{"data-disable-with" => "Sign in", :name => "commit", :type => "submit", :value => "Sign in"}/

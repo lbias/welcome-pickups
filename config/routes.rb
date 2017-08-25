@@ -1,3 +1,9 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+	root 'driver_sessions#new'
+
+  get '/login', to: 'driver_sessions#new'
+	post '/login', to: 'driver_sessions#create'
+	delete '/driver_sessions', to: 'driver_sessions#destroy'
+	delete '/logout', to: 'driver_sessions#destroy'
+
 end
