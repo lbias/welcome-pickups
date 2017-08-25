@@ -16,7 +16,14 @@ FactoryGirl.define do
     email
     password 'password'
 
-    trait 'as_auth_resource' do
+    trait :as_auth_resource do
+      token '1aMdXpWH7vsbUwfcXnjr'
+      attempt_counter 1
+    end
+
+    trait :authenticable do
+      email 'savvas@dopios.com'
+      password 'Accounts12'
       token '1aMdXpWH7vsbUwfcXnjr'
       attempt_counter 1
     end
