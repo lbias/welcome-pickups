@@ -16,6 +16,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'haml-rails'
 gem 'bootstrap-generators'
+gem 'httparty'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
