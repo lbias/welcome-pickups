@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-	root 'driver_sessions#new'
+	root 'home#index'
 
   get '/driver_sessions/new', to: 'driver_sessions#new'
   get '/login', to: 'driver_sessions#new'
@@ -9,4 +9,6 @@ Rails.application.routes.draw do
 	delete '/logout', to: 'driver_sessions#destroy'
 
   get '/dashboard', to: 'schedule_items#index'
+
+	get 'home/index'
 end
