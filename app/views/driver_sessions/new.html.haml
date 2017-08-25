@@ -1,24 +1,30 @@
 .page-header
-  %h1 Login
+  %h1 WelcomePickups Authentication
 
-%form#new_driver_session.form-horizontal{:action => "/login/", :method => "post", :role => "form"}
-  -if @driver_session.errors.any?
-    .alert.alert-danger.alert-dismissable{role: "alert"}
-      %button.close{type: "button", data: {dismiss: "alert"} }
-        %span{aria: {hidden: "true"} } &times;
-        %span.sr-only Close
-      %h4= "#{pluralize(@driver_session.errors.count, "error")} prohibited this session from being authenticated:"
+.panel.panel-default.devise-bs
+  .panel-heading
+    %h4 Login
+  .panel-body
+    %form#new_driver_session{:action => "/login/", :method => "post", :role => "form"}
+      -if @driver_session.errors.any?
+        .alert.alert-danger.alert-dismissable{role: "alert"}
+          %button.close{type: "button", data: {dismiss: "alert"} }
+            %span{aria: {hidden: "true"} } &times;
+            %span.sr-only Close
+          %h4= "#{pluralize(@driver_session.errors.count, "error")} prohibited this session from being authenticated:"
 
-      %ul
-        - @driver_session.errors.full_messages.each do |msg|
-          %li= msg
-  %input#driver_session_authenticity_token.form-control{:name => "authenticity_token", :type => "hidden", :value => form_authenticity_token}/
-  %input#driver_session_email.form-control{:name => "driver_session[attempt_counter]", :type => "hidden", :value => @driver_session.attempt_counter}/
+          %ul
+            - @driver_session.errors.full_messages.each do |msg|
+              %li= msg
+      %input#driver_session_authenticity_token.form-control{:name => "authenticity_token", :type => "hidden", :value => form_authenticity_token}/
+      %input#driver_session_email.form-control{:name => "driver_session[attempt_counter]", :type => "hidden", :value => @driver_session.attempt_counter}/
 
-  .form-group
-    %label{:for => "driver_session_email"} Email
-    %input#driver_session_email.form-control{:autofocus => "autofocus", :name => "driver_session[email]", :type => "email", :value => ""}/
-  .form-group
-    %label{:for => "driver_session_password"} Password
-    %input#driver_session_email.form-control{:autofocus => "autofocus", :name => "driver_session[email]", :type => "email", :value => @driver_session.email}/
-  %input.btn.btn-primary{"data-disable-with" => "Sign in", :name => "commit", :type => "submit", :value => "Sign in"}/
+      .form-group
+        %label{:for => "driver_session_email"} Email
+        %input#driver_session_email.form-control{:autofocus => "autofocus", :name => "driver_session[email]", :type => "email", :value => @driver_session.email}/
+
+      .form-group
+        %label{:for => "driver_session_password"} Password
+        %input#driver_session_password.form-control{:autocomplete => "off", :name => "driver_session[password]", :type => "password", :value => @driver_session.password}/
+      .form-group
+        %input.btn.btn-primary{"data-disable-with" => "Sign in", :name => "commit", :type => "submit", :value => "Sign in"}/

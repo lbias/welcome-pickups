@@ -15,6 +15,11 @@ FactoryGirl.define do
 
     email
     password 'password'
+
+    trait 'as_auth_resource' do
+      token '1aMdXpWH7vsbUwfcXnjr'
+      attempt_counter 1
+    end
   end # of driver factory
 
   factory :schedule_item do

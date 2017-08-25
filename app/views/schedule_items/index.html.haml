@@ -25,18 +25,26 @@
       %tfoot
         %tr{style: 'background-color:darkgray;color: black;text-align: center;'}
           %td{colspan: 1, style: 'background-color:grey;color: white;font-weight: bold;text-align: center;'}= "Total (mins)"
-          %td= @schedule.transfer_availablity_total
-          %td= @schedule.request_availablity_total
+          %td
+            = @schedule.transfer_availablity_total
+            = "(#{duration_s @schedule.transfer_availablity_total})"
+          %td
+            = @schedule.request_availablity_total
+            = "(#{duration_s @schedule.request_availablity_total})"
 
         %tr{style: 'background-color:darkgray;color: black;text-align: center;'}
           %td{colspan: 1, style: 'background-color:grey;color: white;font-weight: bold;text-align: center;'}= "Average (mins)"
-          %td= @schedule.transfer_availablity_avg
-          %td= @schedule.request_availablity_avg
+          %td
+            = @schedule.transfer_availablity_avg
+            = "(#{duration_s @schedule.transfer_availablity_avg})"
+          %td
+            = @schedule.request_availablity_avg
+            = "(#{duration_s @schedule.request_availablity_avg})"
 
       %tbody
         - @schedule.items.each do |schedule_item|
           %tr
-            %td= schedule_item.date.to_date.strftime('%A, %d %B %Y')
+            %td= pretty_date schedule_item.date
             %td= schedule_item.transfer_availablity_s
             %td= schedule_item.request_availablity_s
 - elsif @schedule && !@schedule.valid?

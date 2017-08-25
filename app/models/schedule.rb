@@ -16,21 +16,22 @@ class Schedule
   validate :has_valid_items?
 
   def has_valid_items?
-  	if items.present? && items.size > 0 && items.select{ |item| item.valid? }.blank?
+    if items.present? && items.size > 0 && items.select{ |item| item.valid? }.blank?
   		errors.add(:items, "All schedule items are invalid!")
-  	end
+			return false
+    end
+    return true
   end
 
   # -- Initializaiton
 
-  def initialize(attributes = {})
-    attributes.each do |name, value|
-      send("#{name}=", value)
-    end
-  end
-
-  def initialize(items_json='')
+  def initialize(items_json = [])
     @items = from_json items_json
+
+    @transfer_availablity_total = 0
+    @request_availablity_total = 0
+    @transfer_availablity_avg = 0
+    @request_availablity_avg = 0
   end
 
   def from_json schedule_json
