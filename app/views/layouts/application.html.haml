@@ -31,6 +31,13 @@
               %a{href: "/dashboard"} Dashboard
             %li
               %a{href: "https://www.welcomepickups.com/"} About
+          %ul.nav.navbar-nav.navbar-right
+            - if authenticated?
+              %li
+                %a{href: '', style: 'cursor: default; pointer-events: none;'}
+                  = current_driver_session.email
+              %li
+                = link_to('Logout', logout_path, :method => :delete)
     .container
       - flash.each do |name, msg|
         = content_tag :div, class: "alert alert-#{name == :error ? "danger" : "success" } alert-dismissable", role: "alert" do

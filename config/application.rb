@@ -27,5 +27,9 @@ module WelcomePickups
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Autoload lib/ folder including all subdirectories
+    config.autoload_paths << "#{Rails.root}/lib"
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]    
   end
 end

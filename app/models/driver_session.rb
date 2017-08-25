@@ -3,15 +3,23 @@ class DriverSession
 	include ActiveModel::Validations
 	include ActiveModel::Conversion
 	extend ActiveModel::Naming
-  attr_accessor :email, :password, :token
+
+	# can be authenticated by WelcomePickupsAPI
+  include WelcomePickupsAdapter::WelcomePickupsAuthResource
+
+  attr_accessor :email, :password
+
+  # -- Validations
 
 	validates_presence_of :email, :password
 	validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
 
-  def initialize(email=nil, password=nil)
-    @email = email
-    @password = password
-		# TODO call API to authenticate
+	# -- Initializaiton
+
+  def initialize(attributes = {})
+    attributes.each do |name, value|
+      send("#{name}=", value)
+    end
   end
 
   def to_model

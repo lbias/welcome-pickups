@@ -16,10 +16,11 @@ describe DriverSession, type: :model do
       expect( driver_session ).not_to be_valid
 		end
 
-    it "should authenitcate with the api and retrieve a token" do
-			driver_session = build(:driver_session) # has 4 items with identical periods
-
-      expect( driver_session.token ).not_to be nil
-		end
+		# TODO move to welcome_pickups_auth_resource_spec.rb
+    # it "should authenitcate with the api and retrieve a token" do
+    #   driver_session = build(:driver_session)
+    #   # TODO call API
+    #   expect( driver_session.token ).not_to be nil
+    # end
   end
 end
